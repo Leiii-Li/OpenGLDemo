@@ -23,22 +23,22 @@ public class HockeyRender implements Renderer {
 
     private static final float[] TABLE_VERTICES = {
         // triangle 1
-        0f, 0f,
-        9f, 14f,
-        0f, 14f,
+        -0.5f, -0.5f,
+        0.5f, 0.5f,
+        -0.5f, 0.5f,
 
         // triangle 2
-        0f, 0f,
-        9f, 0f,
-        9f, 14f,
+        -0.5f, -0.5f,
+        0.5f, -0.5f,
+        0.5f, 0.5f,
 
         // line 1
-        0f, 7f,
-        9f, 7f,
+        -0.5f, 0f,
+        0.5f, 0f,
 
         // mallets
-        4.5f, 2f,
-        4.5f, 12f
+        0f, -0.25f,
+        0f, 0.25f
     };
 
     private Context mContext;
@@ -60,19 +60,35 @@ public class HockeyRender implements Renderer {
         glUseProgram(program);
 
         // 调用该函数告诉OpenGl,可以在缓冲区VertexBuffer中找到a_Position对应的数据
-        glVertexAttribPointer(mVertexHandler, 4, GL_FLOAT, false, 0, mVertexBuffer);
+        glVertexAttribPointer(mVertexHandler, 2, GL_FLOAT, false, 0, mVertexBuffer);
 
         glEnableVertexAttribArray(mVertexHandler);
+
+        glClearColor(0, 0, 0, 0);
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-
+        glViewport(0, 0, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // 绘制球桌：绘制方式是 TRIANGLES 所以需要6个顶点，从下标为0开始
         glUniform4f(mColorHandler, 1, 1, 1, 1);
         glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        // 绘制分割线
+        glUniform4f(mColorHandler, 1, 0, 0, 1);
+        glDrawArrays(GL_LINES, 6, 2);
+
+        // 绘制 两个木槌
+        glUniform4f(mColorHandler, 0, 0, 1, 1);
+        glDrawArrays(GL_POINTS, 8, 1);
+
+        glUniform4f(mColorHandler, 1, 0, 0, 1);
+        glDrawArrays(GL_POINTS, 9, 1);
     }
 }
