@@ -5,6 +5,7 @@ import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.GL_LINES;
 import static android.opengl.GLES20.GL_POINTS;
 import static android.opengl.GLES20.GL_TRIANGLES;
+import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
 import static android.opengl.GLES20.glDrawArrays;
@@ -35,15 +36,13 @@ import javax.microedition.khronos.opengles.GL10;
 public class HockeyRender2 implements Renderer {
 
     private static final float[] TABLE_VERTICES = {
-        // triangle 1
-        -0.5f, -0.5f,
-        0.5f, 0.5f,
-        -0.5f, 0.5f,
-
-        // triangle 2
+        // triangle fan
+        0, 0,
         -0.5f, -0.5f,
         0.5f, -0.5f,
         0.5f, 0.5f,
+        -0.5f, 0.5f,
+        -0.5f, -0.5f,
 
         // line 1
         -0.5f, 0f,
@@ -91,7 +90,7 @@ public class HockeyRender2 implements Renderer {
 
         // 绘制球桌：绘制方式是 TRIANGLES 所以需要6个顶点，从下标为0开始
         glUniform4f(mColorHandler, 1, 1, 1, 1);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
 
         // 绘制分割线
         glUniform4f(mColorHandler, 1, 0, 0, 1);
