@@ -5,13 +5,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.nelson.demo.hockey.HockeyRender;
+import com.nelson.demo.hockey.HockeyRender1;
+import com.nelson.demo.hockey.HockeyRender2;
 import com.nelson.demo.opengl.CustomSurfaceView;
 
 public class MainActivity extends AppCompatActivity {
 
     private CustomSurfaceView mSurfaceView;
-    private HockeyRender mHockeyRender;
+    private HockeyRender2 mHockeyRender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mHockeyRender = new HockeyRender(this);
+        mHockeyRender = new HockeyRender2(this);
         mSurfaceView.setRenderer(mHockeyRender);
         mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
