@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.nelson.demo.hockey.HockeyRender1;
 import com.nelson.demo.hockey.HockeyRender2;
 import com.nelson.demo.hockey.HockeyRender3;
+import com.nelson.demo.hockey.HockeyRender3d_1;
 import com.nelson.demo.opengl.CustomSurfaceView;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mHockeyRender = new HockeyRender3(this);
+        mHockeyRender = new HockeyRender3d_1(this);
         mSurfaceView.setRenderer(mHockeyRender);
         mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
