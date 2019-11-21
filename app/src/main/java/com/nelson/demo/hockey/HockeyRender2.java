@@ -37,20 +37,20 @@ public class HockeyRender2 implements Renderer {
 
     private static final float[] TABLE_VERTICES = {
         // triangle fan
-        0, 0,
-        -0.5f, -0.5f,
-        0.5f, -0.5f,
-        0.5f, 0.5f,
-        -0.5f, 0.5f,
-        -0.5f, -0.5f,
+        0, 0, 1f, 1f, 1f,
+        -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+        0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
+        0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
+        -0.5f, 0.5f, 0.7f, 0.7f, 0.7f,
+        -0.5f, -0.5f, 0.7f, 0.7f, 0.7f,
 
-        // line 1
-        -0.5f, 0f,
-        0.5f, 0f,
+        // Line 1
+        -0.5f, 0f, 1f, 0f, 0f,
+        0.5f, 0f, 1f, 0f, 0f,
 
-        // mallets
-        0f, -0.25f,
-        0f, 0.25f
+        // Mallets
+        0f, -0.25f, 0f, 0f, 1f,
+        0f,  0.25f, 1f, 0f, 0f
     };
 
     private Context mContext;
@@ -66,15 +66,19 @@ public class HockeyRender2 implements Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        int program = ShaderHelper.compileProgram(mContext, R.raw.hockey_vertex_shader, R.raw.hockey_fragment_shader);
+        int program = ShaderHelper.compileProgram(mContext, R.raw.hockey_vertex_shader2, R.raw.hockey_fragment_shader2);
         mVertexHandler = glGetAttribLocation(program, "a_Position");
-        mColorHandler = glGetUniformLocation(program, "u_Color");
+        mColorHandler = glGetAttribLocation(program, "a_Color");
         glUseProgram(program);
 
         // 调用该函数告诉OpenGl,可以在缓冲区VertexBuffer中找到a_Position对应的数据
-        glVertexAttribPointer(mVertexHandler, 2, GL_FLOAT, false, 0, mVertexBuffer);
-
+        glVertexAttribPointer(mVertexHandler, 2, GL_FLOAT, false, (3 + 2) * 4, mVertexBuffer);
         glEnableVertexAttribArray(mVertexHandler);
+
+        // 调用该函数告诉OpenGl,可以在缓冲区VertexBuffer中找到a_Position对应的数据
+        mVertexBuffer.position(2);
+        glVertexAttribPointer(mColorHandler, 3, GL_FLOAT, false, (3 + 2) * 4, mVertexBuffer);
+        glEnableVertexAttribArray(mColorHandler);
 
         glClearColor(0, 0, 0, 0);
     }
@@ -86,21 +90,19 @@ public class HockeyRender2 implements Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        // Clear the rendering surface.
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // 绘制球桌：绘制方式是 TRIANGLES 所以需要6个顶点，从下标为0开始
-        glUniform4f(mColorHandler, 1, 1, 1, 1);
+        // Draw the table.
         glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
 
-        // 绘制分割线
-        glUniform4f(mColorHandler, 1, 0, 0, 1);
+        // Draw the center dividing line.
         glDrawArrays(GL_LINES, 6, 2);
 
-        // 绘制 两个木槌
-        glUniform4f(mColorHandler, 0, 0, 1, 1);
+        // Draw the first mallet.
         glDrawArrays(GL_POINTS, 8, 1);
 
-        glUniform4f(mColorHandler, 1, 0, 0, 1);
+        // Draw the second mallet.
         glDrawArrays(GL_POINTS, 9, 1);
     }
 }

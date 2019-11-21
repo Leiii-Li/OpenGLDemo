@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.nelson.demo.hockey.HockeyRender1;
 import com.nelson.demo.hockey.HockeyRender2;
+import com.nelson.demo.hockey.HockeyRender3;
 import com.nelson.demo.opengl.CustomSurfaceView;
 
 public class MainActivity extends AppCompatActivity {
